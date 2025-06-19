@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Note de calcul - Coefficients & Diamètre</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 2rem; max-width: 800px; margin: auto; }
+    h1 { text-align: center; }
+    table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+    th, td { border: 1px solid #ccc; padding: 0.5rem; text-align: center; }
+    input[type="number"] { width: 60px; }
+    .resultats { margin-top: 2rem; font-weight: bold; }
+    .controls { margin-top: 1rem; }
+  </style>
+</head>
+<body>
+  <h1>Note de Calcul (Coefficient ≤ 15)</h1>
+
+  <div class="controls">
+    <label for="materiau">Matériau : </label>
+    <select id="materiau">
+      <option value="PVC">PVC</option>
+      <option value="Cuivre">Cuivre</option>
+      <option value="PER">PER</option>
+      <option value="MUC">Multicouche (MUC)</option>
+    </select>
+    <button onclick="resetForm()">Remettre à zéro</button>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Type d'appareil</th>
+        <th>Code</th>
+        <th>Coefficient</th>
+        <th>Nombre</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+    <tbody id="tableau-corps"></tbody>
+  </table>
+
+  <div class="resultats">
+    Coefficient global : <span id="coeff-global">0</span><br />
+    Diamètre calculé : <span id="diam-calcule">-</span> mm<br />
+    Diamètre normalisé (<span id="label-materiau">PVC</span>) : <span id="diam-norm">-</span> mm
+  </div>
+
+  <script>
+    const appareils = [
+      { nom: "Lavabo", code: "L1", coeff: 1.5 },
+      { nom: "Lavabo double", code: "L2", coeff: 2 },
+      { nom: "Lavabo collectivité", code: "L3", coeff: 3 },
+      { nom: "Bain", code: "B1", coeff: 3 },
+      { nom: "Douche", code: "D1", coeff: 2 },
+      { nom: "Douche collectivité", code: "D2", coeff: 3 },
+      { nom: "Évier", code: "E1", coeff: 2.5 },
+      { nom: "Évier collectivité", code: "E2", coeff: 4 },
+      { nom: "Évier deux bacs + égouttoir", code: "E3", coeff: 3 },
+      { nom: "Lave-linge", code: "MLL", coeff: 1 },
+      { nom: "Lave-vaisselle", code: "LV", coeff: 1 },
+      { nom: "Bidet", code: "BD", coeff: 1.5 },
+      { nom: "WC avec réservoir", code: "WC1", coeff: 0.5 },
+      { nom: "WC sans réservoir (soupape)", code: "WC2", coeff: 2 },
+      { nom: "Appareil spécifique 1", code: "AS1", coeff: 5 },
+      { nom: "Appareil spécifique 2", code: "AS2", coeff: 10 }
+    ];
+
+    const diametresNormes = {
+      PVC: [
+        { min: 141, max: Infinity, val: 200 },
+        { min: 121.4, max: 141, val: 160 },
+        { min: 106.6, max: 121.4, val: 140 },
+        { min: 93.8, max: 106.6, val: 125 },
+        { min: 76.6, max: 93.8, val: 110 },
+        { min: 63.8, max: 76.6, val: 90 },
+        { min: 53.6, max: 63.8, val: 75 },
+        { min: 42.6, max: 53.6, val: 63 },
+        { min: 34, max: 42.6, val: 50 },
+        { min: 27.2, max: 34, val: 40 },
+        { min: 19.4, max: 27.2, val: 32 },
+        { min: 15.4, max: 19.4, val: 25 },
+        { min: 12.4, max: 15.4, val: 20 },
+        { min: 1, max: 12.4, val: 16 },
+        { min: -Infinity, max: 1, val: 16 },
+      ],
+      MUC: [
+        { min: 90, max: Infinity, val: "faux" },
+        { min: 73, max: 90, val: 110 },
+        { min: 60, max: 73, val: 90 },
+        { min: 51, max: 60, val: 75 },
+        { min: 41, max: 51, val: 63 },
+        { min: 32, max: 41, val: 50 },
+        { min: 26, max: 32, val: 40 },
+        { min: 20, max: 26, val: 32 },
+        { min: 15.5, max: 20, val: 25 },
+        { min: 12, max: 15.5, val: 20 },
+        { min: 1, max: 12, val: 16 },
+        { min: -Infinity, max: 1, val: 16 },
+      ],
+      Cuivre: [
+        { min: 103, max: Infinity, val: "faux" },
+        { min: 84.9, max: 103, val: 108 },
+        { min: 72, max: 84.9, val: 88.9 },
+        { min: 60, max: 72, val: 76.1 },
+        { min: 52, max: 60, val: 64 },
+        { min: 40, max: 52, val: 54 },
+        { min: 38, max: 40, val: 42 },
+        { min: 33, max: 38, val: 40 },
+        { min: 26, max: 33, val: 35 },
+        { min: 20, max: 26, val: 28 },
+        { min: 16, max: 20, val: 22 },
+        { min: 14, max: 16, val: 18 },
+        { min: 12, max: 14, val: 16 },
+        { min: 10, max: 12, val: 14 },
+        { min: -Infinity, max: 10, val: 12 },
+      ],
+      PER: [
+        { min: 16.2, max: Infinity, val: 25 },
+        { min: 13, max: 16.2, val: 20 },
+        { min: 1, max: 13, val: 16 },
+        { min: -Infinity, max: 1, val: 16 },
+      ]
+    };
+
+    const tbody = document.getElementById("tableau-corps");
+
+    appareils.forEach((appareil, index) => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${appareil.nom}</td>
+        <td>${appareil.code}</td>
+        <td>${appareil.coeff}</td>
+        <td><input type="number" min="0" value="0" data-index="${index}" /></td>
+        <td id="total-${index}">0</td>
+      `;
+      tbody.appendChild(tr);
+    });
+
+    const inputs = document.querySelectorAll("input[type='number']");
+    const materiauSelect = document.getElementById("materiau");
+
+    function majCalculs() {
+      let totalCoeff = 0;
+      inputs.forEach(input => {
+        const idx = input.dataset.index;
+        const nb = parseInt(input.value) || 0;
+        const coeff = appareils[idx].coeff;
+        const total = nb * coeff;
+        document.getElementById("total-" + idx).textContent = total.toFixed(2);
+        totalCoeff += total;
+      });
+      document.getElementById("coeff-global").textContent = totalCoeff.toFixed(2);
+      calculDiametre(totalCoeff);
+    }
+
+    function calculDiametre(coeff) {
+      let diam = "-";
+      const seuils = [
+        { max: 2, val: 11 },
+        { max: 2.5, val: 11.7 },
+        { max: 3, val: 12.3 },
+        { max: 3.5, val: 12.9 },
+        { max: 4, val: 13.5 },
+        { max: 4.5, val: 14 },
+        { max: 5, val: 14.5 },
+        { max: 5.5, val: 15 },
+        { max: 6, val: 15.4 },
+        { max: 6.5, val: 15.8 },
+        { max: 7, val: 16.2 },
+        { max: 7.5, val: 16.55 },
+        { max: 8, val: 16.9 },
+        { max: 8.5, val: 17.2 },
+        { max: 9, val: 17.5 },
+        { max: 9.5, val: 17.75 },
+        { max: 10, val: 18 },
+        { max: 10.5, val: 18.25 },
+        { max: 11, val: 18.5 },
+        { max: 11.5, val: 18.75 },
+        { max: 12, val: 19 },
+        { max: 12.5, val: 19.25 },
+        { max: 13, val: 19.5 },
+        { max: 13.5, val: 19.75 },
+        { max: 14.5, val: 20 },
+        { max: 15, val: 20.2 }
+      ];
+
+      if (coeff > 15) {
+        diam = "> 20.2 (voir tableau suivant)";
+      } else {
+        for (let i = 0; i < seuils.length; i++) {
+          if (coeff <= seuils[i].max) {
+            diam = seuils[i].val;
+            break;
+          }
+        }
+      }
+
+      document.getElementById("diam-calcule").textContent = diam;
+
+      const materiau = materiauSelect.value;
+      document.getElementById("label-materiau").textContent = materiau;
+
+      if (typeof diam === "number") {
+        const table = diametresNormes[materiau] || [];
+        const correspondance = table.find(row => diam >= row.min && diam <= row.max);
+        document.getElementById("diam-norm").textContent = correspondance ? correspondance.val : "-";
+      } else {
+        document.getElementById("diam-norm").textContent = "-";
+      }
+    }
+
+    function resetForm() {
+      inputs.forEach(input => input.value = 0);
+      majCalculs();
+    }
+
+    inputs.forEach(input => input.addEventListener("input", majCalculs));
+    materiauSelect.addEventListener("change", majCalculs);
+
+    majCalculs();
+  </script>
+</body>
+</html>
