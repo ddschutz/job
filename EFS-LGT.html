@@ -50,21 +50,21 @@
 
   <script>
     const appareils = [
-      { nom: "Evier", code: "EV1", coeff: 2.5 },
-      { nom: "Lavabo", code: "LA", coeff: 1.5 },
-      { nom: "Douche", code: "DO", coeff: 2 },
-      { nom: "Bain", code: "BA", coeff: 3 },
-      { nom: "Douche", code: "D1", coeff: 2 },
-      { nom: "Lave-linge", code: "LL", coeff: 1 },
-      { nom: "Lave-vaisselle", code: "LV", coeff: 1 },
-      { nom: "WC logement", code: "WC", coeff: 0.5 },
-      { nom: "Vidoir", code: "VI", coeff: 2.5 },
-      { nom: "Lave-main H", code: "LM", coeff: 0.5 },
-      { nom: "Attente", code: "LV", coeff: 1 },
-      { nom: "Poste de d'eau 1/2''", code: "RP1", coeff: 0.5 },
-      { nom: "Poste de d'eau 1/2", code: "RP2", coeff: 2 },
-      { nom: "WC (Usage collectif)", code: "WC2", coeff: 1 },
-      { nom: "Urinoir", code: "U", coeff: 0.5 },
+      { zone: "Logement",nom: "Evier", code: "EV1", coeff: 2.5 },
+      { zone: "Logement",nom: "Lavabo", code: "LA", coeff: 1.5 },
+      { zone: "Logement", nom: "Douche", code: "DO", coeff: 2 },
+      { zone: "Logement",nom: "Bain", code: "BA", coeff: 3 },
+      { zone: "Logement",nom: "Douche", code: "D1", coeff: 2 },
+      { zone: "Logement",nom: "Lave-linge", code: "LL", coeff: 1 },
+      { zone: "Logement",nom: "Lave-vaisselle", code: "LV", coeff: 1 },
+      { zone: "Logement",nom: "WC logement", code: "WC", coeff: 0.5 },
+      { zone: "Tertiaire",nom: "Vidoir", code: "VI", coeff: 2.5 },
+      { zone: "Tertiaire",nom: "Lave-main H", code: "LM", coeff: 0.5 },
+      { zone: "Tertiaire",nom: "Attente", code: "LV", coeff: 1 },
+      { zone: "Tertiaire",nom: "Poste de d'eau 1/2''", code: "RP1", coeff: 0.5 },
+      { zone: "Tertiaire",nom: "Poste de d'eau 1/2", code: "RP2", coeff: 2 },
+      { zone: "Tertiaire",nom: "WC (Usage collectif)", code: "WC2", coeff: 1 },
+      { zone: "Tertiaire",nom: "Urinoir", code: "U", coeff: 0.5 },
     ];
 
     const diametresNormes = {
@@ -129,6 +129,7 @@
     appareils.forEach((appareil, index) => {
       const tr = document.createElement("tr");
       tr.innerHTML = `
+        <td>${appareil.zone}</td>
         <td>${appareil.nom}</td>
         <td>${appareil.code}</td>
         <td>${appareil.coeff}</td>
