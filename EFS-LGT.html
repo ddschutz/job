@@ -128,6 +128,13 @@
 
     appareils.forEach((appareil, index) => {
       const tr = document.createElement("tr");
+// Appliquer une couleur de fond selon la zone
+if (appareil.zone === "Logement") {
+  tr.style.backgroundColor = "#f2f2f2"; // gris clair
+} else if (appareil.zone === "Tertiaire") {
+  tr.style.backgroundColor = "#e6f7ff"; // vert très clair (bleu/vert pâle)
+}
+      
       tr.innerHTML = `
         <td>${appareil.zone}</td>
         <td>${appareil.nom}</td>
