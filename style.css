@@ -80,7 +80,7 @@ body {
 
 /* Input standard (pleine largeur) */
 .input-grand {
-  width: 100%;
+  width: 325px;
   padding: 6px;
   margin-top: 3px;
   box-sizing: border-box;
@@ -89,7 +89,7 @@ body {
 /* Input compact (tableaux, coefficients, etc.) */
 .input-petit {
   width: 60px;
-  padding: 4px;
+  padding: 6px;
   box-sizing: border-box;
 }
 
