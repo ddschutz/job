@@ -31,3 +31,8 @@
   margin-left: 240px; /* laisse de la place pour le menu */
   padding: 20px 0;
 }
+/* Lien actif du menu */
+#menu-container a.active {
+  font-weight: bold;
+  color: #007BFF; /* couleur bleue pour le lien actif */
+}
