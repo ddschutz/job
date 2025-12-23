@@ -1,35 +1,33 @@
-body {
-  margin: 0;
-  display: flex;
-  font-family: Arial, sans-serif;
-}
-
-#menu {
+/* Menu uniquement */
+#menu-container {
+  float: left;
   width: 220px;
   padding: 15px;
   background: #f2f2f2;
-  height: 100vh;
+  box-sizing: border-box;
 }
 
-#menu h2 {
+#menu-container h2 {
   font-size: 18px;
+  margin-top: 0;
 }
 
-#menu ul {
+#menu-container ul {
   list-style: none;
   padding: 0;
 }
 
-#menu li {
+#menu-container li {
   margin-bottom: 10px;
 }
 
-#menu a {
+#menu-container a {
   text-decoration: none;
   color: #333;
 }
 
-#content {
-  padding: 20px;
-  flex: 1;
+/* Contenu de la page */
+#main-content {
+  margin-left: 240px; /* laisse de la place pour le menu */
+  padding: 20px 0;
 }
