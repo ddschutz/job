@@ -33,7 +33,7 @@
     margin-right: auto;
    max-width: 1000px;
 }
-/* Lien actif du menu */
+/* Lien actif du menu non utilisé */
 #menu-container a.active {
   font-weight: bold;
   color: #007BFF; /* couleur bleue pour le lien actif */
