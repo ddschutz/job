@@ -4,6 +4,40 @@
   <meta charset="UTF-8">
   <title>Calcul débit & DN – EC / EG</title>
   <style>
+/* Menu */
+    #menu-container {
+      float: left;
+      width: 220px;
+      padding: 15px;
+      background: #f2f2f2;
+      box-sizing: border-box;
+      height: 100vh;
+    }
+
+    #menu-container h2 {
+      font-size: 18px;
+      margin-top: 0;
+    }
+
+    #menu-container ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    #menu-container li {
+      margin-bottom: 10px;
+    }
+
+    #menu-container a {
+      text-decoration: none;
+      color: #333;
+    }
+#main-content {
+      margin-left: 240px; /* laisse de la place pour le menu */
+      padding: 40px;
+      max-width: 600px;
+    }
+    
     body {
       font-family: Arial, sans-serif;
       max-width: 600px;
@@ -36,20 +70,11 @@
 </head>
 <body>
 
- <!-- pour menu--> 
-  
-  <link rel="stylesheet" href="style.css">
+  <!-- Menu -->
+  <div id="menu-container"></div>
 
-<div id="menu-container"></div>
-
-<div id="content">
-  <!-- contenu de la page -->
-</div>
-
-<script src="menu.js"></script>
-
-<!-- pour menu fin --> 
-
+  <!-- Contenu principal -->
+  <div id="main-content">
   
 <h2>Calcul hydraulique EC / EG</h2>
 
@@ -77,7 +102,21 @@
 </div>
   <button onclick="copierTexte()">Copier le résultat</button>
 
+
+
+  <!-- Script menu -->
+
+
+      <script>
+    fetch("menu.html")
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById("menu-container").innerHTML = data;
+      });
+  </script>
+    
 <script>
+ 
 // Tableau ACIER (exemple – à ajuster ensuite)
 const tableauDN = [
   { dn: 15, qmax: 0.29 },
