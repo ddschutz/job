@@ -2,17 +2,36 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Calcul débits EC / EG</title>
+  <title>Calcul débit & DN – EC / EG</title>
   <style>
-    body { font-family: Arial; max-width: 500px; margin: 40px auto; }
-    label { display: block; margin-top: 15px; }
-    input { width: 100%; padding: 6px; }
-    .result { margin-top: 20px; font-weight: bold; }
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 40px auto;
+    }
+    h2, h3 {
+      margin-top: 25px;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+    input {
+      width: 100%;
+      padding: 6px;
+      margin-top: 3px;
+    }
+    .result {
+      margin-top: 20px;
+      padding: 10px;
+      background: #f2f2f2;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
 
-<h2>Saisie des données</h2>
+<h2>Calcul hydraulique EC / EG</h2>
 
 <h3>Eau Chaude (EC)</h3>
 <label>ΔT (°C)</label>
@@ -29,22 +48,50 @@
 <input id="p_eg" type="number" step="0.1">
 
 <div class="result">
-  Débit EC : <span id="q_ec">–</span> m³/h<br>
-  Débit EG : <span id="q_eg">–</span> m³/h
+  EC : <span id="q_ec">–</span> m³/h – <span id="dn_ec">–</span><br>
+  EG : <span id="q_eg">–</span> m³/h – <span id="dn_eg">–</span>
 </div>
 
 <script>
+// Tableau ACIER (exemple – à ajuster ensuite)
+const tableauDN = [
+  { dn: 15, qmax: 0.29 },
+  { dn: 20, qmax: 0.64 },
+  { dn: 25, qmax: 1.19 },
+  { dn: 32, qmax: 6 },
+  { dn: 40, qmax: 10 },
+  { dn: 50, qmax: 18 },
+  { dn: 65, qmax: 30 },
+  { dn: 80, qmax: 45 }
+];
+
+function trouverDN(debit) {
+  const ligne = tableauDN.find(l => debit <= l.qmax);
+  return ligne ? `DN ${ligne.dn}` : "Hors tableau";
+}
+
 function calcul() {
   const dtEC = parseFloat(dt_ec.value);
   const pEC  = parseFloat(p_ec.value);
   const dtEG = parseFloat(dt_eg.value);
   const pEG  = parseFloat(p_eg.value);
 
-  if (dtEC && pEC) q_ec.textContent = (pEC / (1.16 * dtEC)).toFixed(2);
-  if (dtEG && pEG) q_eg.textContent = (pEG / (1.16 * dtEG)).toFixed(2);
+  if (dtEC && pEC) {
+    const qEC = pEC / (1.16 * dtEC);
+    q_ec.textContent = qEC.toFixed(2);
+    dn_ec.textContent = trouverDN(qEC);
+  }
+
+  if (dtEG && pEG) {
+    const qEG = pEG / (1.16 * dtEG);
+    q_eg.textContent = qEG.toFixed(2);
+    dn_eg.textContent = trouverDN(qEG);
+  }
 }
 
-document.querySelectorAll("input").forEach(i => i.addEventListener("input", calcul));
+document.querySelectorAll("input").forEach(i =>
+  i.addEventListener("input", calcul)
+);
 </script>
 
 </body>
