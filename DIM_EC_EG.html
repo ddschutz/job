@@ -68,7 +68,7 @@ const tableauDN = [
   { dn: 65, qmax: 14 },
   { dn: 80, qmax: 19.25 },
   { dn: 100, qmax: 32.5 },
-  { dn: 125, qmax: 49 },
+  { dn: 125, qmax: 49 }
 ];
 
 function trouverDN(debit) {
@@ -82,24 +82,21 @@ function calcul() {
   const dtEG = parseFloat(dt_eg.value);
   const pEG  = parseFloat(p_eg.value);
 
-p_ec_aff.textContent = pEC.toFixed(1);
-dn_ec_aff.textContent = trouverDN(qEC);
 
-p_eg_aff.textContent = pEG.toFixed(1);
-dn_eg_aff.textContent = trouverDN(qEG);
-
-
-  
-  if (dtEC && pEC) {
+ if (dtEC && pEC) {
     const qEC = pEC / (1.16 * dtEC);
     q_ec.textContent = qEC.toFixed(2);
     dn_ec.textContent = trouverDN(qEC);
+    p_ec_aff.textContent = pEC.toFixed(1);
+    dn_ec_aff.textContent = trouverDN(qEC);
   }
 
   if (dtEG && pEG) {
     const qEG = pEG / (1.16 * dtEG);
     q_eg.textContent = qEG.toFixed(2);
     dn_eg.textContent = trouverDN(qEG);
+    p_eg_aff.textContent = pEG.toFixed(1);
+    dn_eg_aff.textContent = trouverDN(qEG);
   }
 }
 
