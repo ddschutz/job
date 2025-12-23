@@ -37,7 +37,7 @@
   font-weight: bold;
   color: #007BFF; /* couleur bleue pour le lien actif */
 }
-
+/* css du efs */
 
  body { font-family: Arial, sans-serif; padding: 2rem; max-width: 800px; }
     h1 { text-align: center; }
@@ -47,3 +47,38 @@
     .resultats { margin-top: 2rem; font-weight: bold; }
     .controls { margin-top: 1rem; }
  
+/* CSS du EC EG */
+
+/*  pour eviter le double body je cache ca
+
+body {
+      font-family: Arial, sans-serif;
+      max-width: 1000px;
+      margin: 40px auto;
+    } */
+    h2, h3 {
+      margin-top: 25px;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+    input {
+      width: 100%;
+      padding: 6px;
+      margin-top: 3px;
+    }
+    .result {
+      margin-top: 20px;
+      padding: 10px;
+      background: #f2f2f2;
+      font-weight: bold;
+    }
+    button {
+      margin-top: 15px;
+      padding: 8px 12px;
+      cursor: pointer;
+    }
+
+
+
