@@ -9,6 +9,14 @@
 
 </head>
 <body>
+
+  
+  <!-- Menu -->
+  <div id="menu-container"></div>
+
+  <!-- Contenu principal -->
+  <div id="main-content">
+    
   <h1>Note de Calcul (Coefficient ≤ 15)</h1>
 
   <div class="controls">
@@ -42,6 +50,17 @@
     Diamètre normalisé (<span id="label-materiau">PVC</span>) : <span id="diam-norm">-</span> mm
   </div>
 
+
+     <!-- script Menu -->
+  <script>
+    fetch("menu.html")
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById("menu-container").innerHTML = data;
+      });
+  </script>
+  <!-- script Menu -->
+    
   <script>
     const appareils = [
       { zone: "Logement",nom: "Evier", code: "EV1", coeff: 2.5 },
