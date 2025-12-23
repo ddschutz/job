@@ -47,11 +47,13 @@
 <label>Puissance (kW)</label>
 <input id="p_eg" type="number" step="0.1">
 
-<div class="result">
+
+  <div class="result">
   EC : <span id="q_ec">–</span> m³/h – <span id="dn_ec">–</span><br>
   EG : <span id="q_eg">–</span> m³/h – <span id="dn_eg">–</span><br><br>
- EC : <span id="p_ec"> - </span> kW - <span id="dn_ec">–</span> - EG :  <span id="p_eg"> - </span> kW - <span id="dn_eg">–</span>
-  
+
+  EC : <span id="p_ec_aff">–</span> kW – <span id="dn_ec_aff">–</span>
+  EG : <span id="p_eg_aff">–</span> kW – <span id="dn_eg_aff">–</span>
 </div>
 
 <script>
@@ -80,6 +82,14 @@ function calcul() {
   const dtEG = parseFloat(dt_eg.value);
   const pEG  = parseFloat(p_eg.value);
 
+p_ec_aff.textContent = pEC.toFixed(1);
+dn_ec_aff.textContent = trouverDN(qEC);
+
+p_eg_aff.textContent = pEG.toFixed(1);
+dn_eg_aff.textContent = trouverDN(qEG);
+
+
+  
   if (dtEC && pEC) {
     const qEC = pEC / (1.16 * dtEC);
     q_ec.textContent = qEC.toFixed(2);
