@@ -30,7 +30,8 @@
 #main-content {
   margin-left: 240px; /* laisse de la place pour le menu */
   padding: 40px;
-   max-width: 800px;
+    margin-right: auto;
+   max-width: 1000px;
 }
 /* Lien actif du menu */
 #menu-container a.active {
