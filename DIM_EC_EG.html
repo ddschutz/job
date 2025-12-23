@@ -27,6 +27,11 @@
       background: #f2f2f2;
       font-weight: bold;
     }
+    button {
+      margin-top: 15px;
+      padding: 8px 12px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -55,6 +60,7 @@
   EC : <span id="p_ec_aff">–</span> kW – <span id="dn_ec_aff">–</span>
   EG : <span id="p_eg_aff">–</span> kW – <span id="dn_eg_aff">–</span>
 </div>
+  <button onclick="copierTexte()">Copier le résultat</button>
 
 <script>
 // Tableau ACIER (exemple – à ajuster ensuite)
@@ -98,6 +104,15 @@ function calcul() {
     p_eg_aff.textContent = pEG.toFixed(1);
     dn_eg_aff.textContent = trouverDN(qEG);
   }
+}
+function copierTexte() {
+  const texte =
+    `EC : ${p_ec_aff.textContent} kW – ${dn_ec_aff.textContent}\n` +
+    `EG : ${p_eg_aff.textContent} kW – ${dn_eg_aff.textContent}`;
+
+  navigator.clipboard.writeText(texte)
+    .then(() => alert("Résultat copié dans le presse-papiers"))
+    .catch(() => alert("Erreur lors de la copie"));
 }
 
 document.querySelectorAll("input").forEach(i =>
