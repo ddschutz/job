@@ -3,7 +3,7 @@
   float: left;
   width: 220px;
   padding: 15px;
-  background: #2e2e2e;
+  background: #eee;
   box-sizing: border-box;
 }
 
@@ -29,7 +29,7 @@
 /* Contenu de la page */
 #main-content {
   margin-left: 240px; /* laisse de la place pour le menu */
-  padding: 40px 0;
+  padding: 40px;
    max-width: 800px;
 }
 /* Lien actif du menu */
@@ -39,11 +39,11 @@
 }
 /* css du efs */
 
- body { font-family: Arial, sans-serif; padding: 2rem; max-width: 800px; }
+ body { font-family: Arial, sans-serif; padding: 0; margin: 0; max-width: 800px; }
     h1 { text-align: center; }
     table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
     th, td { border: 1px solid #ccc; padding: 0.5rem; text-align: center; }
-    input[type="number"] { width: 60px; }
+   
     .resultats { margin-top: 2rem; font-weight: bold; }
     .controls { margin-top: 1rem; }
  
@@ -64,11 +64,7 @@ body {
       margin-top: 10px;
       width: 100px;
     }
-    input {
-      width: 100%;
-      padding: 6px;
-      margin-top: 3px;
-    }
+   
     .result {
       margin-top: 20px;
       padding: 10px;
@@ -81,5 +77,19 @@ body {
       cursor: pointer;
     }
 
+/* Input standard (pleine largeur) */
+.input-grand {
+  width: 100%;
+  padding: 6px;
+  margin-top: 3px;
+  box-sizing: border-box;
+}
+
+/* Input compact (tableaux, coefficients, etc.) */
+.input-petit {
+  width: 60px;
+  padding: 4px;
+  box-sizing: border-box;
+}
 
 
