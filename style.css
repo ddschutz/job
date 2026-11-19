@@ -94,20 +94,14 @@ body {
 }
 
 
-/* ===== Page surface de coude (préfixe cs-) ===== */
+/* Thème sombre par défaut ; thème clair via data-theme="light" sur <html> */
 :root {
-  --cs-bg: #f4f5f7; --cs-card: #ffffff; --cs-text: #1d2330; --cs-muted: #657086;
-  --cs-accent: #1f6feb; --cs-border: #d5dae3; --cs-result: #e8f1ff; --cs-err: #b42318;
-}
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --cs-bg: #14171d; --cs-card: #1e232c; --cs-text: #e6e9ef; --cs-muted: #9aa3b5;
-    --cs-accent: #4c8dff; --cs-border: #343b48; --cs-result: #1b2a42; --cs-err: #ff8a80;
-  }
-}
-:root[data-theme="dark"] {
   --cs-bg: #14171d; --cs-card: #1e232c; --cs-text: #e6e9ef; --cs-muted: #9aa3b5;
   --cs-accent: #4c8dff; --cs-border: #343b48; --cs-result: #1b2a42; --cs-err: #ff8a80;
+}
+:root[data-theme="light"] {
+  --cs-bg: #f4f5f7; --cs-card: #ffffff; --cs-text: #1d2330; --cs-muted: #657086;
+  --cs-accent: #1f6feb; --cs-border: #d5dae3; --cs-result: #e8f1ff; --cs-err: #b42318;
 }
 .cs-page { background: var(--cs-bg); color: var(--cs-text); font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
 .cs-app { max-width: 460px; margin: 0; padding: 0; }
@@ -129,4 +123,3 @@ body {
 .cs-res-detail { font-size: .9rem; color: var(--cs-muted); min-height: 1.3em; }
 .cs-error { color: var(--cs-err); font-size: .95rem; min-height: 1.3em; margin-top: 10px; text-align: center; }
 .cs-footer { color: var(--cs-muted); font-size: .8rem; margin-top: 18px; text-align: center; }
-
