@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Les fichiers d'aide</title>
+<link rel="stylesheet" href="/job/menu.css">
+<style>
+  .cs-index h1 { font-size: 1.6rem; margin: 0 0 24px; color: var(--cs-text); }
+  .cs-index h2 { font-size: 1.2rem; margin: 28px 0 8px; color: var(--cs-accent); }
+  .cs-index .cs-card { margin-bottom: 12px; }
+  .cs-index p { margin: 0 0 10px; color: var(--cs-text); }
+  .cs-index a.cs-link { color: var(--cs-accent); font-weight: 600; text-decoration: none; }
+  .cs-index a.cs-link:hover { text-decoration: underline; }
+</style>
+</head>
+<body class="cs-page">
+
+  <!-- Menu -->
+  <div id="menu-container"></div>
+
+  <!-- Contenu principal -->
+  <div id="main-content">
+    <div class="cs-index">
+      <h1>Les fichiers d'aide</h1>
+
+      <h2>Sanitaire</h2>
+      <div class="cs-card">
+        <p>Dimensionnement EF logement</p>
+        <a class="cs-link" href="https://ddschutz.github.io/job/EFS-LGT.html">Ouvrir le calcul EF</a>
+      </div>
+
+      <h2>Chauffage</h2>
+      <div class="cs-card">
+        <p>Dimensionnement EC/EG</p>
+        <a class="cs-link" href="https://ddschutz.github.io/job/DIM_EC_EG.html">Ouvrir le dimensionnement EC/EG</a>
+      </div>
+
+      <h2>Quantité</h2>
+      <div class="cs-card">
+        <p>Calcul de la surface d'un coude</p>
+        <a class="cs-link" href="https://ddschutz.github.io/job/coude-surface.html">Ouvrir le calcul de surface de coude</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+fetch("menu.html")
+  .then(response => response.text())
+  .then(data => {
+    document.getElementById("menu-container").innerHTML = data;
+  });
+  </script>
+</body>
+</html>
