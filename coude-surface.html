@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Surface d'un coude de gaine</title>
+<style>
+:root{
+  --bg:#f4f5f7; --card:#ffffff; --text:#1d2330; --muted:#657086;
+  --accent:#1f6feb; --accent-text:#ffffff; --border:#d5dae3; --result:#e8f1ff; --err:#b42318;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#14171d; --card:#1e232c; --text:#e6e9ef; --muted:#9aa3b5;
+    --accent:#4c8dff; --accent-text:#0b1020; --border:#343b48; --result:#1b2a42; --err:#ff8a80;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#14171d; --card:#1e232c; --text:#e6e9ef; --muted:#9aa3b5;
+  --accent:#4c8dff; --accent-text:#0b1020; --border:#343b48; --result:#1b2a42; --err:#ff8a80;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);
+  font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.4}
+main{max-width:460px;margin:0 auto;padding:24px 16px}
+h1{font-size:1.4rem;margin:0 0 4px}
+.sub{color:var(--muted);margin:0 0 20px;font-size:.95rem}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px}
+label{display:block;font-weight:600;margin:0 0 6px;font-size:.95rem}
+.field{margin-bottom:16px}
+.input-wrap{position:relative}
+input{width:100%;font:inherit;font-size:1.1rem;padding:12px 56px 12px 14px;
+  border:1px solid var(--border);border-radius:10px;background:var(--bg);color:var(--text)}
+input:focus{outline:2px solid var(--accent);outline-offset:1px}
+.unit{position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:.9rem;pointer-events:none}
+.hint{color:var(--muted);font-size:.82rem;margin-top:4px}
+.result{margin-top:8px;background:var(--result);border-radius:12px;padding:18px;text-align:center}
+.result-label{color:var(--muted);font-size:.9rem}
+.result-value{font-size:2.4rem;font-weight:700;margin:4px 0;color:var(--accent)}
+.result-detail{font-size:.9rem;color:var(--muted);min-height:1.3em}
+.error{color:var(--err);font-size:.95rem;min-height:1.3em;margin-top:10px;text-align:center}
+footer{color:var(--muted);font-size:.8rem;margin-top:18px;text-align:center}
+</style>
+</head>
+<body>
+<main>
+  <h1>Surface d'un coude de gaine</h1>
+  <p class="sub">Coude 90°. Entre la largeur et la hauteur de la gaine.</p>
+
+  <div class="card">
+    <div class="field">
+      <label for="la">Largeur (LA)</label>
+      <div class="input-wrap">
+        <input id="la" type="text" inputmode="decimal" placeholder="ex. 900" autocomplete="off">
+        <span class="unit">mm</span>
+      </div>
+      <div class="hint">Une valeur entre 150 et 2000 mm. Arrondie au pas supérieur si besoin.</div>
+    </div>
+
+    <div class="field">
+      <label for="ht">Hauteur (HT)</label>
+      <div class="input-wrap">
+        <input id="ht" type="text" inputmode="decimal" placeholder="ex. 700" autocomplete="off">
+        <span class="unit">mm</span>
+      </div>
+      <div class="hint">Une valeur entre 150 et 2000 mm. Arrondie au pas supérieur si besoin.</div>
+    </div>
+
+    <div class="result">
+      <div class="result-label">Surface du coude</div>
+      <div class="result-value" id="out">—</div>
+      <div class="result-detail" id="detail">Saisis les deux dimensions</div>
+    </div>
+    <div class="error" id="err" role="alert"></div>
+  </div>
+
+  <footer>Valeurs issues du tableau « Pour metre » de Calcul_surface_coude.xlsx</footer>
+</main>
+
+<script>
+const DATA = {"la": [150, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000], "ht": [150, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000], "rows": [[0.24845, 0.31742, 0.47878, 0.67155, 0.8957, 1.15146, 1.43843, 1.7568, 2.10676, 2.48791, 2.90068, 3.34484, 3.82041, 4.32737, 4.86122, 5.43548, 6.03665, 6.66922, 7.33338, 8.02873], [0.28986, 0.36276, 0.53198, 0.7326, 0.9646, 1.22822, 1.52304, 1.84926, 2.20708, 2.59608, 3.0167, 3.46872, 3.95214, 4.46696, 5.00716, 5.59078, 6.1998, 6.84022, 7.51224, 8.21544], [0.37269, 0.45344, 0.63837, 0.8547, 1.1024, 1.38173, 1.69226, 2.03419, 2.40772, 2.81242, 3.24875, 3.71648, 4.21561, 4.74614, 5.29904, 5.90137, 6.5261, 7.18223, 7.86996, 8.58886], [0.45552, 0.54412, 0.74476, 0.9768, 1.2402, 1.53524, 1.86148, 2.21912, 2.60836, 3.02876, 3.4808, 3.96424, 4.47908, 5.02532, 5.59092, 6.21196, 6.8524, 7.52424, 8.22768, 8.96228], [0.53835, 0.6348, 0.85115, 1.0989, 1.378, 1.68875, 2.0307, 2.40405, 2.809, 3.2451, 3.71285, 4.212, 4.74255, 5.3045, 5.8828, 6.52255, 7.1787, 7.86625, 8.5854, 9.3357], [0.62118, 0.72548, 0.95754, 1.221, 1.5158, 1.84226, 2.19992, 2.58898, 3.00964, 3.46144, 3.9449, 4.45976, 5.00602, 5.58368, 6.17468, 6.83314, 7.505, 8.20826, 8.94312, 9.70912], [0.70401, 0.81616, 1.06393, 1.3431, 1.6536, 1.99577, 2.36914, 2.77391, 3.21028, 3.67778, 4.17695, 4.70752, 5.26949, 5.86286, 6.46656, 7.14373, 7.8313, 8.55027, 9.30084, 10.08254], [0.78684, 0.90684, 1.17032, 1.4652, 1.7914, 2.14928, 2.53836, 2.95884, 3.41092, 3.89412, 4.409, 4.95528, 5.53296, 6.14204, 6.75844, 7.45432, 8.1576, 8.89228, 9.65856, 10.45596], [0.86967, 0.99752, 1.27671, 1.5873, 1.9292, 2.30279, 2.70758, 3.14377, 3.61156, 4.11046, 4.64105, 5.20304, 5.79643, 6.42122, 7.05032, 7.76491, 8.4839, 9.23429, 10.01628, 10.82938], [0.9525, 1.0882, 1.3831, 1.7094, 2.067, 2.4563, 2.8768, 3.3287, 3.8122, 4.3268, 4.8731, 5.4508, 6.0599, 6.7004, 7.3422, 8.0755, 8.8102, 9.5763, 10.374, 11.2028], [1.03533, 1.17888, 1.48949, 1.8315, 2.2048, 2.60981, 3.04602, 3.51363, 4.01284, 4.54314, 5.10515, 5.69856, 6.32337, 6.97958, 7.63408, 8.38609, 9.1365, 9.91831, 10.73172, 11.57622], [1.11816, 1.26956, 1.59588, 1.9536, 2.3426, 2.76332, 3.21524, 3.69856, 4.21348, 4.75948, 5.3372, 5.94632, 6.58684, 7.25876, 7.92596, 8.69668, 9.4628, 10.26032, 11.08944, 11.94964], [1.20099, 1.36024, 1.70227, 2.0757, 2.4804, 2.91683, 3.38446, 3.88349, 4.41412, 4.97582, 5.56925, 6.19408, 6.85031, 7.53794, 8.21784, 9.00727, 9.7891, 10.60233, 11.44716, 12.32306], [1.28382, 1.45092, 1.80866, 2.1978, 2.6182, 3.07034, 3.55368, 4.06842, 4.61476, 5.19216, 5.8013, 6.44184, 7.11378, 7.81712, 8.50972, 9.31786, 10.1154, 10.94434, 11.80488, 12.69648], [1.36665, 1.5416, 1.91505, 2.3199, 2.756, 3.22385, 3.7229, 4.25335, 4.8154, 5.4085, 6.03335, 6.6896, 7.37725, 8.0963, 8.8016, 9.62845, 10.4417, 11.28635, 12.1626, 13.0699], [1.44948, 1.63228, 2.02144, 2.442, 2.8938, 3.37736, 3.89212, 4.43828, 5.01604, 5.62484, 6.2654, 6.93736, 7.64072, 8.37548, 9.09348, 9.93904, 10.768, 11.62836, 12.52032, 13.44332], [1.53231, 1.72296, 2.12783, 2.5641, 3.0316, 3.53087, 4.06134, 4.62321, 5.21668, 5.84118, 6.49745, 7.18512, 7.90419, 8.65466, 9.38536, 10.24963, 11.0943, 11.97037, 12.87804, 13.81674], [1.61514, 1.81364, 2.23422, 2.6862, 3.1694, 3.68438, 4.23056, 4.80814, 5.41732, 6.05752, 6.7295, 7.43288, 8.16766, 8.93384, 9.67724, 10.56022, 11.4206, 12.31238, 13.23576, 14.19016], [1.69797, 1.90432, 2.34061, 2.8083, 3.3072, 3.83789, 4.39978, 4.99307, 5.61796, 6.27386, 6.96155, 7.68064, 8.43113, 9.21302, 9.96912, 10.87081, 11.7469, 12.65439, 13.59348, 14.56358], [1.7808, 1.995, 2.447, 2.9304, 3.445, 3.9914, 4.569, 5.178, 5.8186, 6.4902, 7.1936, 7.9284, 8.6946, 9.4922, 10.261, 11.1814, 12.0732, 12.9964, 13.9512, 14.937]]};
+
+const elLa = document.getElementById('la');
+const elHt = document.getElementById('ht');
+const elOut = document.getElementById('out');
+const elDetail = document.getElementById('detail');
+const elErr = document.getElementById('err');
+
+// Parse "900", "900,5", "900.5" ; returns null if not a positive number
+function parseMm(s){
+  const v = parseFloat(String(s).trim().replace(',', '.'));
+  return (isFinite(v) && v > 0) ? v : null;
+}
+
+// Smallest table value >= v (arrondi au pas supérieur)
+function roundUp(v, values){
+  for (const x of values) if (x >= v) return x;
+  return null;
+}
+
+function fmt(n){
+  return n.toFixed(1).replace('.', ',');
+}
+
+function calc(){
+  elErr.textContent = '';
+  const la = parseMm(elLa.value);
+  const ht = parseMm(elHt.value);
+
+  if (la === null && ht === null){
+    elOut.textContent = '—';
+    elDetail.textContent = 'Saisis les deux dimensions';
+    return;
+  }
+  if (la === null || ht === null){
+    elOut.textContent = '—';
+    elDetail.textContent = '';
+    if (elLa.value.trim() && la === null) elErr.textContent = 'Largeur invalide';
+    else if (elHt.value.trim() && ht === null) elErr.textContent = 'Hauteur invalide';
+    else elDetail.textContent = 'Saisis les deux dimensions';
+    return;
+  }
+
+  const laR = roundUp(la, DATA.la);
+  const htR = roundUp(ht, DATA.ht);
+  if (laR === null || htR === null){
+    elOut.textContent = '—';
+    elDetail.textContent = '';
+    elErr.textContent = 'Dimension hors tableau (maximum 2000 mm)';
+    return;
+  }
+
+  const value = DATA.rows[DATA.ht.indexOf(htR)][DATA.la.indexOf(laR)];
+  elOut.textContent = fmt(value) + ' m²';
+
+  const arrondi = (laR !== la || htR !== ht);
+  let detail = `Largeur ${laR} × hauteur ${htR} mm`;
+  if (arrondi) detail += ` (saisie : ${elLa.value.trim()} × ${elHt.value.trim()} mm, arrondie au pas supérieur)`;
+  elDetail.textContent = detail;
+}
+
+elLa.addEventListener('input', calc);
+elHt.addEventListener('input', calc);
+</script>
+</body>
+</html>
