@@ -94,39 +94,3 @@ body {
 }
 
 
-/* Thème sombre par défaut ; thème clair via data-theme="light" sur <html> */
-:root{
-  --bg:#f4f5f7; --card:#ffffff; --text:#1d2330; --muted:#657086;
-  --accent:#1f6feb; --accent-text:#ffffff; --border:#d5dae3; --result:#e8f1ff; --err:#b42318;
-}
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
-    --bg:#14171d; --card:#1e232c; --text:#e6e9ef; --muted:#9aa3b5;
-    --accent:#4c8dff; --accent-text:#0b1020; --border:#343b48; --result:#1b2a42; --err:#ff8a80;
-  }
-}
-:root[data-theme="dark"]{
-  --bg:#14171d; --card:#1e232c; --text:#e6e9ef; --muted:#9aa3b5;
-  --accent:#4c8dff; --accent-text:#0b1020; --border:#343b48; --result:#1b2a42; --err:#ff8a80;
-}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);
-  font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.4}
-main{max-width:460px;margin:0 auto;padding:24px 16px}
-h1{font-size:1.4rem;margin:0 0 4px}
-.sub{color:var(--muted);margin:0 0 20px;font-size:.95rem}
-.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px}
-label{display:block;font-weight:600;margin:0 0 6px;font-size:.95rem}
-.field{margin-bottom:16px}
-.input-wrap{position:relative}
-input{width:100%;font:inherit;font-size:1.1rem;padding:12px 56px 12px 14px;
-  border:1px solid var(--border);border-radius:10px;background:var(--bg);color:var(--text)}
-input:focus{outline:2px solid var(--accent);outline-offset:1px}
-.unit{position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:.9rem;pointer-events:none}
-.hint{color:var(--muted);font-size:.82rem;margin-top:4px}
-.result{margin-top:8px;background:var(--result);border-radius:12px;padding:18px;text-align:center}
-.result-label{color:var(--muted);font-size:.9rem}
-.result-value{font-size:2.4rem;font-weight:700;margin:4px 0;color:var(--accent)}
-.result-detail{font-size:.9rem;color:var(--muted);min-height:1.3em}
-.error{color:var(--err);font-size:.95rem;min-height:1.3em;margin-top:10px;text-align:center}
-footer{color:var(--muted);font-size:.8rem;margin-top:18px;text-align:center}
